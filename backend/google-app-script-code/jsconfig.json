@@ -1,0 +1,40 @@
+{
+  "compilerOptions": {
+    "target": "ES2019",
+    "module": "none",
+    "lib": ["ES2019"],
+    "checkJs": true,
+    "noEmit": true,
+    "allowJs": true,
+    "maxNodeModuleJsDepth": 0,
+    "types": ["google-apps-script"],
+    "typeRoots": ["./node_modules/@types"],
+    
+    // Strict type checking
+    // "strict": true,
+    // "noImplicitAny": true,
+    // "strictNullChecks": true,
+    // "strictFunctionTypes": true,
+    // "strictPropertyInitialization": true,
+    
+    // Additional checks
+    // "noUnusedLocals": true,
+    // "noUnusedParameters": true,
+    // "noImplicitReturns": true,
+    // "noFallthroughCasesInSwitch": true,
+    // "noUncheckedIndexedAccess": true,
+    // "noImplicitOverride": true,
+    // "noPropertyAccessFromIndexSignature": true,
+    
+    // Module resolution
+    // "forceConsistentCasingInFileNames": true,
+    // "esModuleInterop": true
+  },
+  "include": [
+    "*.js",
+    "*.d.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}

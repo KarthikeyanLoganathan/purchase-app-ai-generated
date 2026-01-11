@@ -1,0 +1,1 @@
+wherever suggest feature is provided with a search field and drop down, tap outside to dismiss the suggest dropdown is required.  within suggest field cross(x) to clear search input is also required.  This two features are required in all screens uniformly

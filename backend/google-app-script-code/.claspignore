@@ -1,0 +1,41 @@
+# Ignore files that shouldn't be pushed to Apps Script
+
+# Dependencies
+node_modules/**
+**/node_modules/**
+
+# Build files
+dist/**
+build/**
+
+# Config files
+package.json
+package-lock.json
+jsconfig.json
+tsconfig.json
+
+# TypeScript definitions
+*.d.ts
+**/*.d.ts
+
+# Version control
+.git/**
+.gitignore
+
+# Documentation
+README.md
+*.md
+
+# clasp configuration
+.clasp.json
+.claspignore
+.clasp-scripts.json
+.clasprc.json
+
+# IDE
+.vscode/**
+.idea/**
+
+# OS files
+.DS_Store
+Thumbs.db
