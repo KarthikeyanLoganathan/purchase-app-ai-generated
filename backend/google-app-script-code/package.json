@@ -1,0 +1,21 @@
+{
+  "name": "my-purchase-app-google-app-script-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "Code.js",
+  "scripts": {
+    "login": "clasp login",
+    "push": "clasp push",
+    "pull": "clasp pull",
+    "open": "clasp open",
+    "create": "clasp create --type sheets --title 'Purchase App Backend'"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "@google/clasp": "^3.1.3",
+    "@types/google-apps-script": "^2.0.8"
+  }
+}

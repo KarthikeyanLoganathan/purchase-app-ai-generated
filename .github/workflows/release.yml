@@ -1,0 +1,77 @@
+name: Build and Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  build-android:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.27.0'
+          channel: 'stable'
+
+      - name: Enable native assets
+        run: flutter config --enable-native-assets
+
+      - name: Get dependencies
+        run: flutter pub get
+
+      - name: Configure signing (if secrets available)
+        run: |
+          # Create keystore directory
+          mkdir -p android/keystore
+          
+          # Decode the keystore from base64 and save it (only if secret exists)
+          if [ -n "${{ secrets.KEYSTORE_BASE64 }}" ]; then
+            echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 -d > android/keystore/upload-keystore.jks
+            
+            # Create key.properties file
+            cat > android/key.properties << EOF
+          storePassword=${{ secrets.KEYSTORE_PASSWORD }}
+          keyPassword=${{ secrets.KEY_PASSWORD }}
+          keyAlias=${{ secrets.KEY_ALIAS }}
+          storeFile=../keystore/upload-keystore.jks
+          EOF
+          fi
+
+      - name: Build APK
+        run: flutter build apk --release
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            build/app/outputs/flutter-apk/app-release.apk
+          body: |
+            ## Purchase Application Release
+            
+            Download the APK below to install on Android devices.
+            
+            **Signing:** ${{ (secrets.KEYSTORE_BASE64 != '' && 'Release-signed') || 'Debug-signed (for testing only)' }}
+            
+            ### Installation
+            1. Download the `app-release.apk` file
+            2. Enable "Install from Unknown Sources" in your Android settings
+            3. Open the APK file to install
+            
+            ### What's Changed
+            See the commit history for details.
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
