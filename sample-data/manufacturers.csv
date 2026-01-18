@@ -1,0 +1,9 @@
+uuid,id,name,description,address,phone_number,email_address,website,updated_at,photo_uuid
+dd41cefe-a728-4eb9-b868-d184d927fceb,1,Anchor Roma,Anchor Roma,,,,,2025-12-30T03:30:00.000Z,
+7b5c688e-e2e8-4ae7-96ac-2efb5d767dab,2,ABB,ABB,,,,,2025-12-30T03:30:00.000Z,
+d0c9d0b3-4b70-46f8-b402-a0d1e0ffe619,3,Wipro,Wipro,,,,,2025-12-30T03:30:00.000Z,
+34ded3f1-af56-4e54-9c82-9eee4994d750,4,Legrand,Legrand,,,,,2025-12-30T03:30:00.000Z,
+049f426f-cb59-40f6-a741-c6c71f0dc51d,5,Finolex,Finolex,,,,,2025-12-30T03:30:00.000Z,
+e8b1c0a6-6fe1-4ddb-bfab-18db14c83d99,6,Hawels,Hawels,,,,,2025-12-30T03:30:00.000Z,
+90a218f0-fa16-4401-88c4-f8feb88cf8e6,7,Anchor,Anchor,,,,,2025-12-30T03:30:00.000Z,
+95331138-71ec-4eec-8d34-cedbe6e9626b,8,Norisys,Norisys,,,,,2025-12-30T03:30:00.000Z,

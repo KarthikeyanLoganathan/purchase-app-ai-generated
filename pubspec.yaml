@@ -1,0 +1,58 @@
+name: purchase_app
+description: A Flutter Purchasing Application with SQLite offline capabilities
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+native_assets:
+  enabled: true
+
+dependencies:
+  flutter:
+    sdk: flutter
+  sqflite: ^2.3.0
+  path_provider: ^2.1.1
+  path: ^1.8.3
+  uuid: ^4.2.1
+  intl: ^0.18.1
+  cupertino_icons: ^1.0.6
+  csv: ^6.0.0
+  archive: ^3.6.1
+  permission_handler: ^11.3.1
+  android_intent_plus: ^5.1.0
+  file_picker: ^8.1.4
+  pdf: ^3.11.1
+  printing: ^5.13.4
+  share_plus: ^10.1.2
+  open_file: ^3.5.10
+  http: ^1.2.0
+  shared_preferences: ^2.2.2
+  logger: ^2.0.2+1
+  google_sign_in: ^6.2.1
+  googleapis: ^13.2.0
+  googleapis_auth: ^1.6.0
+  url_launcher: ^6.3.1
+  package_info_plus: ^8.0.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+  flutter_launcher_icons: ^0.13.1
+  sqflite_common_ffi: ^2.3.4+4
+
+flutter:
+  uses-material-design: true
+  
+  assets:
+    - sample-data/
+    - backend/google-app-script-code/
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/icon/app_icon.png"
+  adaptive_icon_background: "#FFFFFF"
+  adaptive_icon_foreground: "assets/icon/app_icon.png"

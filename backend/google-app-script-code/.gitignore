@@ -1,0 +1,8 @@
+node_modules/
+.DS_Store
+
+# clasp local configuration (contains your specific Script ID)
+.clasp.json
+
+# clasp credentials
+.clasprc.json

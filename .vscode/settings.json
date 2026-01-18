@@ -1,0 +1,34 @@
+{
+  "dart.analysisExcludedFolders": [
+    "${workspaceFolder}/build",
+    "${workspaceFolder}/.dart_tool",
+    "${workspaceFolder}/z-logs",
+    "${workspaceFolder}/android",
+    "${workspaceFolder}/ios"
+  ],
+  "files.watcherExclude": {
+    "**/build/**": true,
+    "**/.dart_tool/**": true,
+    "**/z-logs/**": true,
+    "**/android/**": true,
+    "**/ios/**": true,
+    "**/.gradle/**": true,
+    "**/Pods/**": true
+  },
+  "dart.openDevTools": "never",
+  "dart.previewHotReloadOnSaveWatcher": false,
+  "dart.flutterSelectDeviceWhenConnected": false,
+  "dart.allowTestsOutsideTestFolder": false,
+  "dart.debugExternalPackageLibraries": false,
+  "dart.debugSdkLibraries": false,
+  "files.exclude": {
+    "**/.dart_tool": true,
+    "**/build": true
+  },
+  "search.exclude": {
+    "**/build": true,
+    "**/.dart_tool": true,
+    "**/android": true,
+    "**/ios": true
+  }
+}

@@ -1,0 +1,13 @@
+
+@url=https://script.google.com/macros/s/AKfycbwlTGrUOxnSrmccCpLMrXKyY_9NaiZYwT6Zvyezb2MyGMibsGpq0AtRpi-ZIF4cqReCKg/exec
+@appCode=Abcd1234
+
+# @name checkSheetSetup 
+POST {{url}}
+Content-Type: application/json
+Accept: application/json
+
+{
+    "secret": "{{appCode}}",
+    "operation": "checkSheetSetup"
+}

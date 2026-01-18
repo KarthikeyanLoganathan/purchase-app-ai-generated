@@ -1,0 +1,1 @@
+Don't bother about DDL history.  Assume it is a fresh start. No need of version 2 or more for the DDL changes.

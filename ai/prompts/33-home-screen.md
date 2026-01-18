@@ -1,0 +1,1 @@
+Can we group buttons of Home Screen under Transactions, Master Data, Configuration
