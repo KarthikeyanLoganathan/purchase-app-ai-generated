@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
+import 'package:purchase_app/utils/settings_manager.dart';
 import 'package:uuid/uuid.dart';
 import '../models/basket.dart';
 import '../models/basket_item.dart';
@@ -104,8 +105,8 @@ class _BasketDetailScreenState extends State<BasketDetailScreen> {
 
   Future<void> _loadDefaultCurrency() async {
     if (widget.basket.currency.isEmpty) {
-      final defaultCurrency = await _dbHelper.getDefaultCurrency();
-      _currencyController.text = defaultCurrency;
+      final defaultCurrency = SettingsManager.instance.defaultCurrency.value;
+      _currencyController.text = defaultCurrency.name;
     } else {
       _currencyController.text = widget.basket.currency;
     }

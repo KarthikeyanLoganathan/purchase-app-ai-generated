@@ -34,6 +34,7 @@ const TABLE_TYPES = Object.freeze({
 const TABLES = Object.freeze({
     unit_of_measures: "unit_of_measures",
     currencies: "currencies",
+    defaults: "defaults",
     manufacturers: "manufacturers",
     vendors: "vendors",
     materials: "materials",
@@ -52,6 +53,7 @@ const TABLES = Object.freeze({
 });
 
 const _TABLE_INDICES = Object.freeze({
+    defaults: 100,
     unit_of_measures: 101,
     currencies: 102,
     manufacturers: 201,
@@ -70,6 +72,20 @@ const _TABLE_INDICES = Object.freeze({
 });
 
 const _TABLE_DEFINITIONS = Object.freeze({
+    defaults: Object.freeze({
+        INDEX: _TABLE_INDICES.defaults,
+        NAME: "defaults",
+        TYPE: TABLE_TYPES.CONFIGURATION_DATA,
+        IS_SYNC_DATA_TABLE: true,
+        KEY_COLUMN: "type",
+        COLUMNS: Object.freeze({
+            type: DATA_TYPES.STRING,
+            value: DATA_TYPES.STRING,
+            updated_at: DATA_TYPES.TIME_STAMP,
+        }),
+        LOOKUP_COLUMNS: Object.freeze({}),
+        FOREIGN_KEY_RELATIONSHIPS: Object.freeze({}),
+    }),
     unit_of_measures: Object.freeze({
         INDEX: _TABLE_INDICES.unit_of_measures,
         NAME: "unit_of_measures",
@@ -80,7 +96,6 @@ const _TABLE_DEFINITIONS = Object.freeze({
             name: DATA_TYPES.NAME,
             description: DATA_TYPES.DESCRIPTION,
             number_of_decimal_places: DATA_TYPES.INTEGER,
-            is_default: DATA_TYPES.BOOLEAN,
             updated_at: DATA_TYPES.TIME_STAMP,
         }),
         LOOKUP_COLUMNS: Object.freeze({}),
@@ -97,7 +112,6 @@ const _TABLE_DEFINITIONS = Object.freeze({
             description: DATA_TYPES.DESCRIPTION,
             symbol: DATA_TYPES.STRING,
             number_of_decimal_places: DATA_TYPES.INTEGER,
-            is_default: DATA_TYPES.BOOLEAN,
             updated_at: DATA_TYPES.TIME_STAMP,
         }),
         LOOKUP_COLUMNS: Object.freeze({}),

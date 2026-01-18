@@ -28,7 +28,6 @@ class _CurrencyDetailScreenState extends State<CurrencyDetailScreen> {
 
   Currency? _currentCurrency;
   bool _isSaving = false;
-  bool _isDefault = false;
 
   bool get _isCreateMode =>
       widget.currency.name.isEmpty && _currentCurrency == null;
@@ -41,7 +40,6 @@ class _CurrencyDetailScreenState extends State<CurrencyDetailScreen> {
     _symbolController.text = widget.currency.symbol ?? '';
     _decimalPlacesController.text =
         widget.currency.numberOfDecimalPlaces.toString();
-    _isDefault = widget.currency.isDefault;
   }
 
   @override
@@ -71,7 +69,6 @@ class _CurrencyDetailScreenState extends State<CurrencyDetailScreen> {
           ? null
           : _symbolController.text.trim(),
       numberOfDecimalPlaces: int.tryParse(_decimalPlacesController.text) ?? 2,
-      isDefault: _isDefault,
       updatedAt: DateTime.now().toUtc(),
     );
 
@@ -263,17 +260,6 @@ class _CurrencyDetailScreenState extends State<CurrencyDetailScreen> {
                 }
                 return null;
               },
-            ),
-            const SizedBox(height: 16),
-            CheckboxListTile(
-              title: const Text('Set as Default Currency'),
-              value: _isDefault,
-              onChanged: (value) {
-                setState(() {
-                  _isDefault = value ?? false;
-                });
-              },
-              contentPadding: EdgeInsets.zero,
             ),
             const SizedBox(height: 24),
             ElevatedButton(

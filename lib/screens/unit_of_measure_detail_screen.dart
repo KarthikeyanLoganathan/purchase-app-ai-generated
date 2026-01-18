@@ -28,7 +28,6 @@ class _UnitOfMeasureDetailScreenState extends State<UnitOfMeasureDetailScreen> {
 
   UnitOfMeasure? _currentUnit;
   bool _isSaving = false;
-  bool _isDefault = false;
   int _numberOfDecimalPlaces = 2;
 
   bool get _isCreateMode => widget.unit.name.isEmpty && _currentUnit == null;
@@ -38,7 +37,6 @@ class _UnitOfMeasureDetailScreenState extends State<UnitOfMeasureDetailScreen> {
     super.initState();
     _nameController.text = widget.unit.name;
     _descriptionController.text = widget.unit.description ?? '';
-    _isDefault = widget.unit.isDefault;
     _numberOfDecimalPlaces = widget.unit.numberOfDecimalPlaces;
     _decimalPlacesController.text = _numberOfDecimalPlaces.toString();
   }
@@ -66,7 +64,6 @@ class _UnitOfMeasureDetailScreenState extends State<UnitOfMeasureDetailScreen> {
           ? null
           : _descriptionController.text.trim(),
       numberOfDecimalPlaces: _numberOfDecimalPlaces,
-      isDefault: _isDefault,
       updatedAt: DateTime.now().toUtc(),
     );
 
@@ -257,17 +254,6 @@ class _UnitOfMeasureDetailScreenState extends State<UnitOfMeasureDetailScreen> {
                   });
                 }
               },
-            ),
-            const SizedBox(height: 16),
-            CheckboxListTile(
-              title: const Text('Set as Default Unit'),
-              value: _isDefault,
-              onChanged: (value) {
-                setState(() {
-                  _isDefault = value ?? false;
-                });
-              },
-              contentPadding: EdgeInsets.zero,
             ),
             const SizedBox(height: 24),
             ElevatedButton(

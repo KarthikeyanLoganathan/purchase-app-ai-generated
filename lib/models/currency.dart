@@ -6,7 +6,6 @@ abstract class CurrencyFields {
   static const description = 'description';
   static const symbol = 'symbol';
   static const numberOfDecimalPlaces = 'numberOfDecimalPlaces';
-  static const isDefault = 'isDefault';
   static const updatedAt = 'updatedAt';
 }
 
@@ -15,7 +14,6 @@ abstract class CurrencyTableFields {
   static const description = 'description';
   static const symbol = 'symbol';
   static const numberOfDecimalPlaces = 'number_of_decimal_places';
-  static const isDefault = 'is_default';
   static const updatedAt = 'updated_at';
 }
 
@@ -24,7 +22,6 @@ class Currency {
   final String? description;
   final String? symbol;
   final int numberOfDecimalPlaces;
-  final bool isDefault;
   final DateTime updatedAt;
 
   Currency({
@@ -32,7 +29,6 @@ class Currency {
     this.description,
     this.symbol,
     this.numberOfDecimalPlaces = 2,
-    this.isDefault = false,
     required this.updatedAt,
   });
 
@@ -42,7 +38,6 @@ class Currency {
       CurrencyTableFields.description: description,
       CurrencyTableFields.symbol: symbol,
       CurrencyTableFields.numberOfDecimalPlaces: numberOfDecimalPlaces,
-      CurrencyTableFields.isDefault: isDefault,
       CurrencyTableFields.updatedAt: updatedAt,
     };
   }
@@ -53,7 +48,6 @@ class Currency {
       description: map[CurrencyTableFields.description],
       symbol: map[CurrencyTableFields.symbol],
       numberOfDecimalPlaces: map[CurrencyTableFields.numberOfDecimalPlaces],
-      isDefault: map[CurrencyTableFields.isDefault],
       updatedAt: map[CurrencyTableFields.updatedAt],
     );
   }
@@ -63,7 +57,6 @@ class Currency {
     String? description,
     String? symbol,
     int? numberOfDecimalPlaces,
-    bool? isDefault,
     DateTime? updatedAt,
   }) {
     return Currency(
@@ -72,14 +65,13 @@ class Currency {
       symbol: symbol ?? this.symbol,
       numberOfDecimalPlaces:
           numberOfDecimalPlaces ?? this.numberOfDecimalPlaces,
-      isDefault: isDefault ?? this.isDefault,
       updatedAt: updatedAt ?? this.updatedAt,
     );
   }
 
   @override
   String toString() {
-    return 'Currency{name: $name, description: $description, symbol: $symbol, numberOfDecimalPlaces: $numberOfDecimalPlaces, isDefault: $isDefault, updatedAt: $updatedAt}';
+    return 'Currency{name: $name, description: $description, symbol: $symbol, numberOfDecimalPlaces: $numberOfDecimalPlaces, updatedAt: $updatedAt}';
   }
 
   @override
@@ -123,14 +115,6 @@ class Currency {
       isUnique: false,
       type: int);
 
-  static final _isDefaultFieldDef = ModelFieldDefinition(
-      name: CurrencyFields.isDefault,
-      tableFieldName: CurrencyTableFields.isDefault,
-      isPrimaryKey: false,
-      isNullable: false,
-      isUnique: false,
-      type: bool);
-
   static final _updatedAtFieldDef = ModelFieldDefinition(
       name: CurrencyFields.updatedAt,
       tableFieldName: CurrencyTableFields.updatedAt,
@@ -152,7 +136,6 @@ class Currency {
         CurrencyFields.description: _descriptionFieldDef,
         CurrencyFields.symbol: _symbolFieldDef,
         CurrencyFields.numberOfDecimalPlaces: _numberOfDecimalPlacesFieldDef,
-        CurrencyFields.isDefault: _isDefaultFieldDef,
         CurrencyFields.updatedAt: _updatedAtFieldDef,
       });
 

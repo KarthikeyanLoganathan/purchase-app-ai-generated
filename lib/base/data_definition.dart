@@ -18,6 +18,7 @@ import 'package:purchase_app/models/currency.dart';
 import 'package:purchase_app/models/change_log.dart';
 import 'package:purchase_app/models/condensed_change_log.dart';
 import 'package:purchase_app/models/local_setting.dart';
+import 'package:purchase_app/models/defaults.dart';
 
 abstract class TableNames {
   static const manufacturers = 'manufacturers';
@@ -35,6 +36,7 @@ abstract class TableNames {
   static const projects = 'projects';
   static const unitOfMeasures = 'unit_of_measures';
   static const currencies = 'currencies';
+  static const defaults = 'defaults';
   static const localSettings = 'local_settings';
   static const changeLog = 'change_log';
   static const condensedChangeLog = 'condensed_change_log';
@@ -57,6 +59,7 @@ abstract class DataDefinition {
     TableNames.projects: Project.modelDefinition,
     TableNames.unitOfMeasures: UnitOfMeasure.modelDefinition,
     TableNames.currencies: Currency.modelDefinition,
+    TableNames.defaults: Defaults.modelDefinition,
     TableNames.changeLog: ChangeLog.modelDefinition,
     TableNames.condensedChangeLog: CondensedChangeLog.modelDefinition,
     TableNames.localSettings: LocalSetting.modelDefinition,
@@ -80,6 +83,7 @@ abstract class DataDefinition {
     Project.modelDefinition.tableIndex: Project.modelDefinition,
     UnitOfMeasure.modelDefinition.tableIndex: UnitOfMeasure.modelDefinition,
     Currency.modelDefinition.tableIndex: Currency.modelDefinition,
+    Defaults.modelDefinition.tableIndex: Defaults.modelDefinition,
     ChangeLog.modelDefinition.tableIndex: ChangeLog.modelDefinition,
     CondensedChangeLog.modelDefinition.tableIndex:
         CondensedChangeLog.modelDefinition,

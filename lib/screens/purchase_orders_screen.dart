@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:purchase_app/utils/settings_manager.dart';
 import 'package:uuid/uuid.dart';
 import 'package:intl/intl.dart';
 import '../models/purchase_order.dart';
@@ -321,7 +322,8 @@ class _PurchaseOrdersScreenState extends State<PurchaseOrdersScreen> {
             return;
           }
 
-          final defaultCurrency = await _dbHelper.getDefaultCurrency();
+          final defaultCurrency =
+              SettingsManager.instance.defaultCurrency.value;
           final newPurchaseOrder = PurchaseOrder(
             uuid: const Uuid().v4(),
             vendorUuid: vendors.first.uuid,
@@ -329,7 +331,7 @@ class _PurchaseOrdersScreenState extends State<PurchaseOrdersScreen> {
             basePrice: 0.0,
             taxAmount: 0.0,
             totalAmount: 0.0,
-            currency: defaultCurrency,
+            currency: defaultCurrency.name,
             orderDate: DateTime.now(),
             expectedDeliveryDate: DateTime.now(),
             updatedAt: DateTime.now().toUtc(),

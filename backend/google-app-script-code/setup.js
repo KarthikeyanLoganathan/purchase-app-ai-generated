@@ -4,6 +4,34 @@ const setup = {
         CONFIG: "config",
         CONTROL: "control",
     }),
+    sequenceSheets(){
+        const ss = SpreadsheetApp.getActiveSpreadsheet();
+        const desiredSequence = [
+            this.SHEET_NAMES.STATISTICS, 
+            this.SHEET_NAMES.CONFIG, 
+            this.SHEET_NAMES.CONTROL,
+            ...tableDefinitions.tableNames, 
+            maintainManufacturerModelNames.LAYOUT.SHEET, 
+            maintainManufacturerModelData.LAYOUT.SHEET, 
+            maintainVendorPriceLists.LAYOUT.SHEET];
+        
+        // Get all sheets
+        const allSheets = ss.getSheets();
+        
+        // Reorder sheets according to desired sequence
+        for (let i = 0; i < desiredSequence.length; i++) {
+            const sheetName = desiredSequence[i];
+            const sheet = ss.getSheetByName(sheetName);
+            
+            if (sheet) {
+                // Move sheet to position i + 1 (1-indexed)
+                ss.setActiveSheet(sheet);
+                ss.moveActiveSheet(i + 1);
+            }
+        }
+        ss.setActiveSheet(ss.getSheetByName(this.SHEET_NAMES.STATISTICS));        
+        Logger.log("Sheets reordered successfully");
+    },
     /**
      * Setup a all Data Worksheets according to schema
      */
@@ -39,8 +67,8 @@ const setup = {
         }
         sheet.getRange(1, 1, 2, 2)
             .setValues([
-                ["Default Currency", "=XLOOKUP(TRUE,currencies!E:E,currencies!A:A)"],
-                ["Default Unit of Measure", "=XLOOKUP(TRUE,unit_of_measures!D:D,unit_of_measures!A:A)"],
+                ["Default Currency", "=XLOOKUP(\"Currency\",defaults!A:A,defaults!B:B)"],
+                ["Default Unit of Measure", "=XLOOKUP(\"UnitOfMeasure\",defaults!A:A,defaults!B:B)"],
             ]);
 
         if (!isNewSheet) {
@@ -549,6 +577,7 @@ const setup = {
         this.setupStatisticsSheet();
         this.setupControlSheet();
         this.deleteDefaultSheetIfEmpty();
+        this.sequenceSheets();
         Logger.log(`Sheets were setup successfully`);
         return true;
     }

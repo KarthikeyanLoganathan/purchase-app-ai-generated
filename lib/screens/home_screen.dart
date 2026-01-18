@@ -19,6 +19,7 @@ import 'import_sample_data_screen.dart';
 import 'sync_debug_screen.dart';
 import 'currencies_screen.dart';
 import 'units_screen.dart';
+import 'defaults_screen.dart';
 import '../utils/sync_helper.dart' as sync_helper;
 import '../utils/settings_manager.dart';
 import '../widgets/common_overflow_menu.dart';
@@ -392,6 +393,16 @@ class _HomeScreenState extends State<HomeScreen>
             () => Navigator.push(
               context,
               MaterialPageRoute(builder: (_) => const UnitsScreen()),
+            ),
+          ),
+          _buildMenuCard(
+            context,
+            'Defaults',
+            Icons.settings_suggest,
+            Colors.blueGrey,
+            () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => const DefaultsScreen()),
             ),
           ),
         ],

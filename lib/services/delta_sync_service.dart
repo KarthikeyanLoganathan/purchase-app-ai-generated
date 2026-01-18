@@ -155,6 +155,7 @@ class DeltaSyncService {
       // Update last sync timestamp
       final newSyncTimestamp = DateTime.now().toUtc().toIso8601String();
       await SettingsManager.instance.setLastSyncTimestamp(newSyncTimestamp);
+      await SettingsManager.instance.loadDefaults();
 
       // Clear condensed change log after successful sync
       await _dbHelper.clearCondensedChangeLog();

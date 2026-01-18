@@ -5,7 +5,6 @@ abstract class UnitOfMeasureFields {
   static const name = 'name';
   static const description = 'description';
   static const numberOfDecimalPlaces = 'numberOfDecimalPlaces';
-  static const isDefault = 'isDefault';
   static const updatedAt = 'updatedAt';
 }
 
@@ -13,7 +12,6 @@ abstract class UnitOfMeasureTableFields {
   static const name = 'name';
   static const description = 'description';
   static const numberOfDecimalPlaces = 'number_of_decimal_places';
-  static const isDefault = 'is_default';
   static const updatedAt = 'updated_at';
 }
 
@@ -21,14 +19,12 @@ class UnitOfMeasure {
   final String name; // Primary key
   final String? description;
   final int numberOfDecimalPlaces;
-  final bool isDefault;
   final DateTime updatedAt;
 
   UnitOfMeasure({
     required this.name,
     this.description,
     this.numberOfDecimalPlaces = 2,
-    this.isDefault = false,
     required this.updatedAt,
   });
 
@@ -37,7 +33,6 @@ class UnitOfMeasure {
       UnitOfMeasureTableFields.name: name,
       UnitOfMeasureTableFields.description: description,
       UnitOfMeasureTableFields.numberOfDecimalPlaces: numberOfDecimalPlaces,
-      UnitOfMeasureTableFields.isDefault: isDefault,
       UnitOfMeasureTableFields.updatedAt: updatedAt,
     };
   }
@@ -48,7 +43,6 @@ class UnitOfMeasure {
       description: map[UnitOfMeasureTableFields.description],
       numberOfDecimalPlaces:
           map[UnitOfMeasureTableFields.numberOfDecimalPlaces],
-      isDefault: map[UnitOfMeasureTableFields.isDefault],
       updatedAt: map[UnitOfMeasureTableFields.updatedAt],
     );
   }
@@ -57,7 +51,6 @@ class UnitOfMeasure {
     String? name,
     String? description,
     int? numberOfDecimalPlaces,
-    bool? isDefault,
     DateTime? updatedAt,
   }) {
     return UnitOfMeasure(
@@ -65,14 +58,13 @@ class UnitOfMeasure {
       description: description ?? this.description,
       numberOfDecimalPlaces:
           numberOfDecimalPlaces ?? this.numberOfDecimalPlaces,
-      isDefault: isDefault ?? this.isDefault,
       updatedAt: updatedAt ?? this.updatedAt,
     );
   }
 
   @override
   String toString() {
-    return 'UnitOfMeasure{name: $name, description: $description, numberOfDecimalPlaces: $numberOfDecimalPlaces, isDefault: $isDefault, updatedAt: $updatedAt}';
+    return 'UnitOfMeasure{name: $name, description: $description, numberOfDecimalPlaces: $numberOfDecimalPlaces, updatedAt: $updatedAt}';
   }
 
   @override
@@ -108,14 +100,6 @@ class UnitOfMeasure {
       isUnique: false,
       type: int);
 
-  static final _isDefaultFieldDef = ModelFieldDefinition(
-      name: UnitOfMeasureFields.isDefault,
-      tableFieldName: UnitOfMeasureTableFields.isDefault,
-      isPrimaryKey: false,
-      isNullable: false,
-      isUnique: false,
-      type: bool);
-
   static final _updatedAtFieldDef = ModelFieldDefinition(
       name: UnitOfMeasureFields.updatedAt,
       tableFieldName: UnitOfMeasureTableFields.updatedAt,
@@ -137,7 +121,6 @@ class UnitOfMeasure {
         UnitOfMeasureFields.description: _descriptionFieldDef,
         UnitOfMeasureFields.numberOfDecimalPlaces:
             _numberOfDecimalPlacesFieldDef,
-        UnitOfMeasureFields.isDefault: _isDefaultFieldDef,
         UnitOfMeasureFields.updatedAt: _updatedAtFieldDef,
       });
 

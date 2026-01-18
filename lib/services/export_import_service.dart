@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:csv/csv.dart';
 import 'package:archive/archive.dart';
+import 'package:googleapis/migrationcenter/v1.dart';
 import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:purchase_app/base/model_definition.dart';
@@ -585,6 +586,8 @@ class ExportImportService {
 
       await ChangeLogUtils(_dbHelper).initializeChangeLogFromDataTables();
 
+      await SettingsManager.instance.loadDefaults();
+
       return {
         'success': totalErrors == 0,
         'totalRecords': totalRecords,
@@ -1012,6 +1015,8 @@ class ExportImportService {
     debugPrint('[Import] Initializing change log from imported data...');
     await ChangeLogUtils(_dbHelper).initializeChangeLogFromDataTables();
     debugPrint('[Import] Change log initialized');
+
+    await SettingsManager.instance.loadDefaults();
 
     return {
       'tablesProcessed': totalTablesProcessed,

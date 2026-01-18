@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:purchase_app/utils/settings_manager.dart';
 import 'package:uuid/uuid.dart';
 import '../models/vendor.dart';
 import '../models/manufacturer_material.dart';
@@ -87,8 +88,8 @@ class _VendorPriceListDetailScreenState
   Future<void> _loadDefaultCurrency() async {
     if (widget.vendorPriceList.currency == null ||
         widget.vendorPriceList.currency!.isEmpty) {
-      final defaultCurrency = await _dbHelper.getDefaultCurrency();
-      _currencyController.text = defaultCurrency;
+      final defaultCurrency = SettingsManager.instance.defaultCurrency.value;
+      _currencyController.text = defaultCurrency.name;
     } else {
       _currencyController.text = widget.vendorPriceList.currency!;
     }

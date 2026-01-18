@@ -19,6 +19,7 @@ import '../models/quotation_item.dart';
 import '../models/project.dart';
 import '../models/currency.dart';
 import '../models/unit_of_measure.dart';
+import '../models/defaults.dart';
 import '../base/data_definition.dart';
 import '../base/change_modes.dart';
 
@@ -314,7 +315,6 @@ class DatabaseHelper {
         name TEXT PRIMARY KEY,
         description TEXT,
         number_of_decimal_places INTEGER NOT NULL DEFAULT 2,
-        is_default INTEGER NOT NULL DEFAULT 0,
         updated_at TEXT NOT NULL
       )
     ''');
@@ -326,7 +326,15 @@ class DatabaseHelper {
         description TEXT,
         symbol TEXT,
         number_of_decimal_places INTEGER,
-        is_default INTEGER NOT NULL DEFAULT 0,
+        updated_at TEXT NOT NULL
+      )
+    ''');
+
+    // Defaults table
+    await db.execute('''
+      CREATE TABLE defaults (
+        type TEXT PRIMARY KEY,
+        value TEXT NOT NULL,
         updated_at TEXT NOT NULL
       )
     ''');
@@ -2355,33 +2363,30 @@ class DatabaseHelper {
     await _updateQuotationTotals(vendor.uuid);
   }
 
-  /// Get the default currency from the database
-  /// Returns the currency marked as default, or 'INR' if none found
-  Future<String> getDefaultCurrency() async {
+  /// Get the default currency object from the database
+  /// Returns the currency from defaults table, or null if none found
+  Future<Currency?> getDefaultCurrencyObject() async {
     final db = await database;
-    final result = await db.query(
-      TableNames.currencies,
-      where: 'is_default = ?',
-      whereArgs: [1],
+
+    // First get the default currency name from defaults table
+    final defaultResult = await db.query(
+      TableNames.defaults,
+      where: 'type = ?',
+      whereArgs: ['Currency'],
       limit: 1,
     );
 
-    if (result.isNotEmpty) {
-      return result.first['name'] as String;
+    if (defaultResult.isEmpty) {
+      return null;
     }
 
-    // Fallback to INR if no default currency is set
-    return 'INR';
-  }
+    final currencyName = defaultResult.first['value'] as String;
 
-  /// Get the default currency object from the database
-  /// Returns the currency marked as default, or null if none found
-  Future<Currency?> getDefaultCurrencyObject() async {
-    final db = await database;
+    // Now get the currency object
     final result = await db.query(
       TableNames.currencies,
-      where: 'is_default = ?',
-      whereArgs: [1],
+      where: 'name = ?',
+      whereArgs: [currencyName],
       limit: 1,
     );
 
@@ -2404,33 +2409,30 @@ class DatabaseHelper {
     return result.map((map) => Currency.fromDbMap(map)).toList();
   }
 
-  /// Get the default unit of measure from the database
-  /// Returns the unit marked as default, or 'piece' if none found
-  Future<String> getDefaultUnitOfMeasure() async {
+  /// Get the default unit of measure object from the database
+  /// Returns the unit from defaults table, or null if none found
+  Future<UnitOfMeasure?> getDefaultUnitOfMeasureObject() async {
     final db = await database;
-    final result = await db.query(
-      TableNames.unitOfMeasures,
-      where: 'is_default = ?',
-      whereArgs: [1],
+
+    // First get the default unit name from defaults table
+    final defaultResult = await db.query(
+      TableNames.defaults,
+      where: 'type = ?',
+      whereArgs: ['UnitOfMeasure'],
       limit: 1,
     );
 
-    if (result.isNotEmpty) {
-      return result.first['name'] as String;
+    if (defaultResult.isEmpty) {
+      return null;
     }
 
-    // Fallback to 'piece' if no default unit is set
-    return 'piece';
-  }
+    final unitName = defaultResult.first['value'] as String;
 
-  /// Get the default unit of measure object from the database
-  /// Returns the unit marked as default, or null if none found
-  Future<UnitOfMeasure?> getDefaultUnitOfMeasureObject() async {
-    final db = await database;
+    // Now get the unit object
     final result = await db.query(
       TableNames.unitOfMeasures,
-      where: 'is_default = ?',
-      whereArgs: [1],
+      where: 'name = ?',
+      whereArgs: [unitName],
       limit: 1,
     );
 
@@ -2471,6 +2473,73 @@ class DatabaseHelper {
     );
 
     return result.map((map) => UnitOfMeasure.fromDbMap(map)).toList();
+  }
+
+  // Defaults CRUD operations
+
+  /// Get all defaults
+  /// Returns a list of all defaults ordered by type
+  Future<List<Defaults>> getAllDefaults() async {
+    final db = await database;
+    final result = await db.query(
+      TableNames.defaults,
+      orderBy: 'type ASC',
+    );
+
+    return result.map((map) => Defaults.fromDbMap(map)).toList();
+  }
+
+  /// Get a default by type
+  /// Returns the default with the specified type, or null if not found
+  Future<Defaults?> getDefaultByType(String type) async {
+    if (type.isEmpty) return null;
+
+    final db = await database;
+    final result = await db.query(
+      TableNames.defaults,
+      where: 'type = ?',
+      whereArgs: [type],
+      limit: 1,
+    );
+
+    if (result.isNotEmpty) {
+      return Defaults.fromDbMap(result.first);
+    }
+
+    return null;
+  }
+
+  /// Insert a new default
+  /// Returns the number of rows inserted
+  Future<int> insertDefault(Defaults defaultItem) async {
+    final db = await database;
+    return await db.insert(
+      TableNames.defaults,
+      defaultItem.toDbMap(),
+    );
+  }
+
+  /// Update an existing default
+  /// Returns the number of rows updated
+  Future<int> updateDefault(Defaults defaultItem, String oldType) async {
+    final db = await database;
+    return await db.update(
+      TableNames.defaults,
+      defaultItem.toDbMap(),
+      where: 'type = ?',
+      whereArgs: [oldType],
+    );
+  }
+
+  /// Delete a default by type
+  /// Returns the number of rows deleted
+  Future<int> deleteDefault(String type) async {
+    final db = await database;
+    return await db.delete(
+      TableNames.defaults,
+      where: 'type = ?',
+      whereArgs: [type],
+    );
   }
 
   Future<void> close() async {

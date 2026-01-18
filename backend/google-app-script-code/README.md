@@ -31,7 +31,7 @@ google-app-script-code/
 ├── dataReaders.js                      # dataReaders namespace - Data reading with filter support
 ├── cleanup.js                          # cleanup namespace - Data cleanup utilities
 ├── consistencyChecks.js                # consistencyChecks namespace - Foreign key validation and cleanup
-├── exportCSV.js                        # csvExport namespace - CSV/ZIP export functionality
+├── exportCSV.js                        # exportImport namespace - CSV/ZIP export functionality
 ├── deployer.js                         # deployer namespace - Web app deployment automation
 ├── maintainManufacturerModels.js       # maintainManufacturerModelNames namespace - Model names maintenance
 ├── maintainManufacturerModelData.js    # maintainManufacturerModelData namespace - MRP/lot size maintenance
@@ -175,9 +175,9 @@ The codebase uses a **namespace pattern** for better modularity and organization
 - **`webSecurity`** - Request validation and security
   - `webSecurity.validateSecretCode(providedCode)` - Validate secret code against configuration
 
-- **`csvExport`** - CSV/ZIP export functionality
-  - `csvExport.exportCurrentSheet()` - Export currently active sheet to CSV file
-  - `csvExport.exportAllDataSheets()` - Export all data sheets to ZIP file
+- **`exportImport`** - CSV/ZIP export functionality
+  - `exportImport.csvExportCurrentSheet()` - Export currently active sheet to CSV file
+  - `exportImport.csvExportAllDataSheets()` - Export all data sheets to ZIP file
 
 - **`deployer`** - Web app deployment automation
   - `deployer.deployWebApp()` - Create new web app deployment with version description
@@ -230,8 +230,8 @@ maintainManufacturerModelNames.setupSheet();
 maintainManufacturerModelData.setupSheet();
 
 // CSV Export
-csvExport.exportCurrentSheet();
-csvExport.exportAllDataSheets();
+exportImport.csvExportCurrentSheet();
+exportImport.csvExportAllDataSheets();
 
 // Web app deployment
 deployer.deployWebApp();

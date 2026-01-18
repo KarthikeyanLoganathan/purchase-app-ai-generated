@@ -1,4 +1,7 @@
 import 'package:flutter/foundation.dart';
+import 'package:purchase_app/models/currency.dart';
+import 'package:purchase_app/models/defaults.dart';
+import 'package:purchase_app/models/unit_of_measure.dart';
 import '../models/local_setting.dart';
 import '../services/database_helper.dart';
 
@@ -6,7 +9,19 @@ import '../services/database_helper.dart';
 /// Loads settings into memory on startup and provides reactive access via ValueNotifiers
 class SettingsManager {
   static final SettingsManager instance = SettingsManager._init();
-
+  static final Currency _inrCurrency = Currency(
+    name: 'INR',
+    description: 'Rupee',
+    symbol: '₹',
+    numberOfDecimalPlaces: 2,
+    updatedAt: DateTime.now().toUtc(),
+  );
+  static final UnitOfMeasure _nosUnitOfMeasure = UnitOfMeasure(
+    name: 'Nos',
+    description: 'Numbers',
+    numberOfDecimalPlaces: 0,
+    updatedAt: DateTime.now().toUtc(),
+  );
   SettingsManager._init();
 
   final DatabaseHelper _dbHelper = DatabaseHelper.instance;
@@ -18,11 +33,22 @@ class SettingsManager {
   final ValueNotifier<String?> secretCode = ValueNotifier<String?>(null);
   final ValueNotifier<String?> lastSyncTimestamp = ValueNotifier<String?>(null);
   final ValueNotifier<String?> googleSheetId = ValueNotifier<String?>(null);
+  final ValueNotifier<Currency> defaultCurrency =
+      ValueNotifier<Currency>(_inrCurrency);
+  final ValueNotifier<UnitOfMeasure> defaultUnitOfMeasure =
+      ValueNotifier<UnitOfMeasure>(_nosUnitOfMeasure);
 
   /// Initialize settings from database
   /// Call this once during app startup
   Future<void> initialize() async {
     await _loadSettings();
+  }
+
+  Future<void> loadDefaults() async {
+    defaultCurrency.value =
+        await _dbHelper.getDefaultCurrencyObject() ?? _inrCurrency;
+    defaultUnitOfMeasure.value =
+        await _dbHelper.getDefaultUnitOfMeasureObject() ?? _nosUnitOfMeasure;
   }
 
   /// Load all settings from database into memory
@@ -42,6 +68,7 @@ class SettingsManager {
         await _dbHelper.getLocalSetting(LocalSettingsKeys.lastSyncTimestamp);
     googleSheetId.value =
         await _dbHelper.getLocalSetting(LocalSettingsKeys.googleSheetId);
+    await loadDefaults();
   }
 
   // Getters
@@ -112,6 +139,21 @@ class SettingsManager {
     googleSheetId.value = value;
   }
 
+  Future<void> setDefault(Defaults? defaultItem) async {
+    if (defaultItem != null) {
+      if (defaultItem.type == DefaultsTypes.currency) {
+        defaultCurrency.value =
+            await _dbHelper.getDefaultCurrencyObject() ?? _inrCurrency;
+      } else if (defaultItem.type == DefaultsTypes.unitOfMeasure) {
+        defaultUnitOfMeasure.value =
+            await _dbHelper.getDefaultUnitOfMeasureObject() ??
+                _nosUnitOfMeasure;
+      }
+    } else {
+      await loadDefaults();
+    }
+  }
+
   /// Dispose ValueNotifiers when app closes
   void dispose() {
     developerMode.dispose();
@@ -120,5 +162,7 @@ class SettingsManager {
     secretCode.dispose();
     lastSyncTimestamp.dispose();
     googleSheetId.dispose();
+    defaultCurrency.dispose();
+    defaultUnitOfMeasure.dispose();
   }
 }

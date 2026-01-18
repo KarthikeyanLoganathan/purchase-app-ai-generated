@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
+import 'package:purchase_app/utils/settings_manager.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:open_file/open_file.dart';
@@ -131,8 +132,8 @@ class _PurchaseOrderDetailScreenState extends State<PurchaseOrderDetailScreen> {
     // Load default currency if not set
     if (widget.purchaseOrder.currency == null ||
         widget.purchaseOrder.currency!.isEmpty) {
-      final defaultCurrency = await _dbHelper.getDefaultCurrency();
-      _currencyController.text = defaultCurrency;
+      final defaultCurrency = SettingsManager.instance.defaultCurrency.value;
+      _currencyController.text = defaultCurrency.name;
     } else {
       _currencyController.text = widget.purchaseOrder.currency!;
     }
@@ -1416,7 +1417,7 @@ class _PurchaseOrderDetailScreenState extends State<PurchaseOrderDetailScreen> {
                       }
 
                       final defaultCurrency =
-                          await _dbHelper.getDefaultCurrency();
+                          SettingsManager.instance.defaultCurrency.value;
                       final newItem = PurchaseOrderItem(
                         uuid: '',
                         purchaseOrderUuid: widget.purchaseOrder.uuid,
@@ -1431,7 +1432,7 @@ class _PurchaseOrderDetailScreenState extends State<PurchaseOrderDetailScreen> {
                         taxPercent: 0.0,
                         taxAmount: 0.0,
                         totalAmount: 0.0,
-                        currency: defaultCurrency,
+                        currency: defaultCurrency.name,
                         updatedAt: DateTime.now(),
                       );
                       final result = await Navigator.push<PurchaseOrderItem>(
@@ -1714,9 +1715,8 @@ class _PaymentDialogState extends State<_PaymentDialog> {
 
   Future<void> _loadDefaultCurrency() async {
     if (_currencyController.text.isEmpty) {
-      final defaultCurrency =
-          await DatabaseHelper.instance.getDefaultCurrency();
-      _currencyController.text = defaultCurrency;
+      final defaultCurrency = SettingsManager.instance.defaultCurrency.value;
+      _currencyController.text = defaultCurrency.name;
     }
   }
 

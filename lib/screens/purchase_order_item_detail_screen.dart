@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:purchase_app/utils/settings_manager.dart';
 import 'package:uuid/uuid.dart';
 import '../models/purchase_order_item.dart';
 import '../models/manufacturer_material.dart';
@@ -148,8 +149,8 @@ class _PurchaseOrderItemDetailScreenState
   Future<void> _loadDefaultCurrency() async {
     if (widget.purchaseOrderItem.currency == null ||
         widget.purchaseOrderItem.currency!.isEmpty) {
-      final defaultCurrency = await _dbHelper.getDefaultCurrency();
-      _currencyController.text = defaultCurrency;
+      final defaultCurrency = SettingsManager.instance.defaultCurrency.value;
+      _currencyController.text = defaultCurrency.name;
     } else {
       _currencyController.text = widget.purchaseOrderItem.currency!;
     }

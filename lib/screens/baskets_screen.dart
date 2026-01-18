@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:purchase_app/utils/settings_manager.dart';
 import '../models/basket.dart';
 import '../services/database_helper.dart';
 import 'basket_detail_screen.dart';
@@ -192,7 +193,8 @@ class _BasketsScreenState extends State<BasketsScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          final defaultCurrency = await _dbHelper.getDefaultCurrency();
+          final defaultCurrency =
+              SettingsManager.instance.defaultCurrency.value;
           await Navigator.push(
             context,
             MaterialPageRoute(
@@ -200,7 +202,7 @@ class _BasketsScreenState extends State<BasketsScreen> {
                 basket: Basket(
                   uuid: '',
                   date: DateTime.now(),
-                  currency: defaultCurrency,
+                  currency: defaultCurrency.name,
                   updatedAt: DateTime.now(),
                 ),
               ),
